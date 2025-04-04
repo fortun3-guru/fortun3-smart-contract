@@ -2,8 +2,8 @@
 
 ## Deployed contracts
 
-| Chain   | Name           | Address                                    | Last Updated |
-| ------- | -------------- | ------------------------------------------ | ------------ |
-| Sepolia | USDC           | 0x398B8fFC1bB1dFe4594B1860589e18Fb040AbC88 |              |
-| Sepolia | F3             | 0xaBB8eF316584b0f4fFc2aEC5f5242992DfE81c3A |              |
-| Sepolia | CounterService | 0x398B8fFC1bB1dFe4594B1860589e18Fb040AbC88 |              |
+| Chain   | Name           | Address                                                                                                                            | Last Updated     |
+| ------- | -------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ---------------- |
+| Sepolia | USDC           | [0x9782B21Ae05d7ef65217159c7CCf4b5A379BfbE0](https://sepolia.etherscan.io/address/0x9782B21Ae05d7ef65217159c7CCf4b5A379BfbE0#code) | 05/04/2025 02:40 |
+| Sepolia | F3             | [0xC5380e64127f79Df8c27384c22f2dbCb43f00551](https://sepolia.etherscan.io/address/0xC5380e64127f79Df8c27384c22f2dbCb43f00551#code) | 05/04/2025 02:40 |
+| Sepolia | CounterService | [0xD7B8B9704131F612c49f64436493563Fb31d9091](https://sepolia.etherscan.io/address/0xD7B8B9704131F612c49f64436493563Fb31d9091#code) | 05/04/2025 02:40 |

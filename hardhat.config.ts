@@ -82,7 +82,7 @@ const config: any = {
     },
     sepolia: {
       accounts,
-      url: 'https://1rpc.io/sepolia',
+      url: 'https://ethereum-sepolia-rpc.publicnode.com',
       chainId: 11155111,
     },
     polygon_mumbai: {
