@@ -29,36 +29,50 @@ import type {
 
 export interface CounterServiceInterface extends utils.Interface {
   functions: {
+    "consultPrice()": FunctionFragment;
     "exchange(uint256)": FunctionFragment;
     "exchangeRate()": FunctionFragment;
     "f3Token()": FunctionFragment;
+    "getCurrentReceiptId()": FunctionFragment;
+    "mintingPrice()": FunctionFragment;
     "owner()": FunctionFragment;
     "payForConsult()": FunctionFragment;
     "payForMinting()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "setExchangeRate(uint256)": FunctionFragment;
     "setF3Token(address)": FunctionFragment;
+    "setPrices(uint256,uint256)": FunctionFragment;
     "setUSDCToken(address)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
     "usdcToken()": FunctionFragment;
+    "withdraw(address,address,uint256)": FunctionFragment;
   };
 
   getFunction(
     nameOrSignatureOrTopic:
+      | "consultPrice"
       | "exchange"
       | "exchangeRate"
       | "f3Token"
+      | "getCurrentReceiptId"
+      | "mintingPrice"
       | "owner"
       | "payForConsult"
       | "payForMinting"
       | "renounceOwnership"
       | "setExchangeRate"
       | "setF3Token"
+      | "setPrices"
       | "setUSDCToken"
       | "transferOwnership"
       | "usdcToken"
+      | "withdraw"
   ): FunctionFragment;
 
+  encodeFunctionData(
+    functionFragment: "consultPrice",
+    values?: undefined
+  ): string;
   encodeFunctionData(
     functionFragment: "exchange",
     values: [PromiseOrValue<BigNumberish>]
@@ -68,6 +82,14 @@ export interface CounterServiceInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "f3Token", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "getCurrentReceiptId",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "mintingPrice",
+    values?: undefined
+  ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "payForConsult",
@@ -90,6 +112,10 @@ export interface CounterServiceInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
+    functionFragment: "setPrices",
+    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "setUSDCToken",
     values: [PromiseOrValue<string>]
   ): string;
@@ -98,13 +124,33 @@ export interface CounterServiceInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(functionFragment: "usdcToken", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "withdraw",
+    values: [
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<BigNumberish>
+    ]
+  ): string;
 
+  decodeFunctionResult(
+    functionFragment: "consultPrice",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "exchange", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "exchangeRate",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "f3Token", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "getCurrentReceiptId",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "mintingPrice",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "payForConsult",
@@ -123,6 +169,7 @@ export interface CounterServiceInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "setF3Token", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "setPrices", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "setUSDCToken",
     data: BytesLike
@@ -132,18 +179,23 @@ export interface CounterServiceInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "usdcToken", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "withdraw", data: BytesLike): Result;
 
   events: {
     "ConsultPaid(address,uint256)": EventFragment;
     "Exchange(address,uint256,uint256)": EventFragment;
     "MintingPaid(address,uint256)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
+    "PriceUpdated(string,uint256)": EventFragment;
+    "Withdraw(address,address,uint256)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "ConsultPaid"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Exchange"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "MintingPaid"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "PriceUpdated"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Withdraw"): EventFragment;
 }
 
 export interface ConsultPaidEventObject {
@@ -192,6 +244,29 @@ export type OwnershipTransferredEvent = TypedEvent<
 export type OwnershipTransferredEventFilter =
   TypedEventFilter<OwnershipTransferredEvent>;
 
+export interface PriceUpdatedEventObject {
+  service: string;
+  newPrice: BigNumber;
+}
+export type PriceUpdatedEvent = TypedEvent<
+  [string, BigNumber],
+  PriceUpdatedEventObject
+>;
+
+export type PriceUpdatedEventFilter = TypedEventFilter<PriceUpdatedEvent>;
+
+export interface WithdrawEventObject {
+  token: string;
+  to: string;
+  amount: BigNumber;
+}
+export type WithdrawEvent = TypedEvent<
+  [string, string, BigNumber],
+  WithdrawEventObject
+>;
+
+export type WithdrawEventFilter = TypedEventFilter<WithdrawEvent>;
+
 export interface CounterService extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
@@ -219,6 +294,8 @@ export interface CounterService extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
+    consultPrice(overrides?: CallOverrides): Promise<[BigNumber]>;
+
     exchange(
       usdcAmount: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -227,6 +304,10 @@ export interface CounterService extends BaseContract {
     exchangeRate(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     f3Token(overrides?: CallOverrides): Promise<[string]>;
+
+    getCurrentReceiptId(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    mintingPrice(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     owner(overrides?: CallOverrides): Promise<[string]>;
 
@@ -252,6 +333,12 @@ export interface CounterService extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    setPrices(
+      _consultPrice: PromiseOrValue<BigNumberish>,
+      _mintingPrice: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     setUSDCToken(
       _usdcToken: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -263,7 +350,16 @@ export interface CounterService extends BaseContract {
     ): Promise<ContractTransaction>;
 
     usdcToken(overrides?: CallOverrides): Promise<[string]>;
+
+    withdraw(
+      token: PromiseOrValue<string>,
+      to: PromiseOrValue<string>,
+      amount: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
   };
+
+  consultPrice(overrides?: CallOverrides): Promise<BigNumber>;
 
   exchange(
     usdcAmount: PromiseOrValue<BigNumberish>,
@@ -273,6 +369,10 @@ export interface CounterService extends BaseContract {
   exchangeRate(overrides?: CallOverrides): Promise<BigNumber>;
 
   f3Token(overrides?: CallOverrides): Promise<string>;
+
+  getCurrentReceiptId(overrides?: CallOverrides): Promise<BigNumber>;
+
+  mintingPrice(overrides?: CallOverrides): Promise<BigNumber>;
 
   owner(overrides?: CallOverrides): Promise<string>;
 
@@ -298,6 +398,12 @@ export interface CounterService extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  setPrices(
+    _consultPrice: PromiseOrValue<BigNumberish>,
+    _mintingPrice: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   setUSDCToken(
     _usdcToken: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -310,7 +416,16 @@ export interface CounterService extends BaseContract {
 
   usdcToken(overrides?: CallOverrides): Promise<string>;
 
+  withdraw(
+    token: PromiseOrValue<string>,
+    to: PromiseOrValue<string>,
+    amount: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   callStatic: {
+    consultPrice(overrides?: CallOverrides): Promise<BigNumber>;
+
     exchange(
       usdcAmount: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -319,6 +434,10 @@ export interface CounterService extends BaseContract {
     exchangeRate(overrides?: CallOverrides): Promise<BigNumber>;
 
     f3Token(overrides?: CallOverrides): Promise<string>;
+
+    getCurrentReceiptId(overrides?: CallOverrides): Promise<BigNumber>;
+
+    mintingPrice(overrides?: CallOverrides): Promise<BigNumber>;
 
     owner(overrides?: CallOverrides): Promise<string>;
 
@@ -338,6 +457,12 @@ export interface CounterService extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    setPrices(
+      _consultPrice: PromiseOrValue<BigNumberish>,
+      _mintingPrice: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     setUSDCToken(
       _usdcToken: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -349,6 +474,13 @@ export interface CounterService extends BaseContract {
     ): Promise<void>;
 
     usdcToken(overrides?: CallOverrides): Promise<string>;
+
+    withdraw(
+      token: PromiseOrValue<string>,
+      to: PromiseOrValue<string>,
+      amount: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
   };
 
   filters: {
@@ -389,9 +521,28 @@ export interface CounterService extends BaseContract {
       previousOwner?: PromiseOrValue<string> | null,
       newOwner?: PromiseOrValue<string> | null
     ): OwnershipTransferredEventFilter;
+
+    "PriceUpdated(string,uint256)"(
+      service?: null,
+      newPrice?: null
+    ): PriceUpdatedEventFilter;
+    PriceUpdated(service?: null, newPrice?: null): PriceUpdatedEventFilter;
+
+    "Withdraw(address,address,uint256)"(
+      token?: PromiseOrValue<string> | null,
+      to?: PromiseOrValue<string> | null,
+      amount?: null
+    ): WithdrawEventFilter;
+    Withdraw(
+      token?: PromiseOrValue<string> | null,
+      to?: PromiseOrValue<string> | null,
+      amount?: null
+    ): WithdrawEventFilter;
   };
 
   estimateGas: {
+    consultPrice(overrides?: CallOverrides): Promise<BigNumber>;
+
     exchange(
       usdcAmount: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -400,6 +551,10 @@ export interface CounterService extends BaseContract {
     exchangeRate(overrides?: CallOverrides): Promise<BigNumber>;
 
     f3Token(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getCurrentReceiptId(overrides?: CallOverrides): Promise<BigNumber>;
+
+    mintingPrice(overrides?: CallOverrides): Promise<BigNumber>;
 
     owner(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -425,6 +580,12 @@ export interface CounterService extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    setPrices(
+      _consultPrice: PromiseOrValue<BigNumberish>,
+      _mintingPrice: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     setUSDCToken(
       _usdcToken: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -436,9 +597,18 @@ export interface CounterService extends BaseContract {
     ): Promise<BigNumber>;
 
     usdcToken(overrides?: CallOverrides): Promise<BigNumber>;
+
+    withdraw(
+      token: PromiseOrValue<string>,
+      to: PromiseOrValue<string>,
+      amount: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
+    consultPrice(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     exchange(
       usdcAmount: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -447,6 +617,12 @@ export interface CounterService extends BaseContract {
     exchangeRate(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     f3Token(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    getCurrentReceiptId(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    mintingPrice(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
@@ -472,6 +648,12 @@ export interface CounterService extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
+    setPrices(
+      _consultPrice: PromiseOrValue<BigNumberish>,
+      _mintingPrice: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
     setUSDCToken(
       _usdcToken: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -483,5 +665,12 @@ export interface CounterService extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     usdcToken(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    withdraw(
+      token: PromiseOrValue<string>,
+      to: PromiseOrValue<string>,
+      amount: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
   };
 }

@@ -1,6 +1,6 @@
-const { BigNumber } = require('ethers');
-const { BN, balance, ether, expectRevert, time } = require('@openzeppelin/test-helpers');
-const contractName = 'Storage';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+const contractName = 'F3';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -15,7 +15,7 @@ module.exports = async function ({ ethers, network, getNamedAccounts, deployment
   const chainId = network.config.chainId;
   const contract = await deploy(contractName, {
     from: deployer,
-    args: ['test'],
+    args: [],
     log: true,
     deterministicDeployment: false,
   });

@@ -82,7 +82,7 @@ const config: any = {
     },
     sepolia: {
       accounts,
-      url: 'https://rpc-sepolia.rockx.com',
+      url: 'https://1rpc.io/sepolia',
       chainId: 11155111,
     },
     polygon_mumbai: {
