@@ -32,7 +32,7 @@
     "verify:polygon_mumbai": "hardhat run scripts/verify.js --network polygon_mumbai",
     "verify:sepolia": "hardhat run scripts/verify.js --network sepolia",
     "verify:base_testnet": "hardhat run scripts/verify.js --network base_testnet",
-    "verify:celo_testnet": "hardhat run scripts/verify.js --network celo_testnet",
+    "verify:celo": "hardhat run scripts/verify.js --network celo",
     "verify:rootstock_testnet": "hardhat run scripts/verify.js --network rootstock_testnet"
   },
   "repository": {

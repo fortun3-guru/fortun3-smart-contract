@@ -116,6 +116,11 @@ const config: any = {
       accounts: accounts,
       chainId: 31,
     },
+    celo: {
+      url: 'https://forno.celo.org',
+      accounts: accounts,
+      chainId: 42220,
+    },
   },
   etherscan: {
     apiKey: {
@@ -127,6 +132,7 @@ const config: any = {
       polygonMumbai: 'FPHU3AFWJD2M3ECIKN61FPG1CIMN3IWF46',
       rootstock_testnet: 'key',
       base_testnet: 'HWIGT6I8F9PZHQXKWM3WM57P4TFQC1ISWS',
+      celo: 'PQ6KHZ9W2YZ7HI3KW651DIEMWS2HUEIXYN',
     },
     customChains: [
       {
@@ -167,6 +173,14 @@ const config: any = {
         urls: {
           apiURL: 'https://explorer.testnet.rootstock.io/api',
           browserURL: 'https://explorer.testnet.rootstock.io/',
+        },
+      },
+      {
+        network: 'celo',
+        chainId: 42220,
+        urls: {
+          apiURL: 'https://api.celoscan.io/api',
+          browserURL: 'https://celoscan.io/',
         },
       },
     ],
