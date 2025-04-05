@@ -106,6 +106,16 @@ const config: any = {
       accounts: accounts,
       chainId: 167005,
     },
+    base_testnet: {
+      url: 'https://sepolia.base.org',
+      accounts: accounts,
+      chainId: 84532,
+    },
+    rootstock_testnet: {
+      url: 'https://public-node.testnet.rsk.co',
+      accounts: accounts,
+      chainId: 31,
+    },
   },
   etherscan: {
     apiKey: {
@@ -115,6 +125,8 @@ const config: any = {
       bkc_testnet: 'key',
       bkc: 'key',
       polygonMumbai: 'FPHU3AFWJD2M3ECIKN61FPG1CIMN3IWF46',
+      rootstock_testnet: 'key',
+      base_testnet: 'HWIGT6I8F9PZHQXKWM3WM57P4TFQC1ISWS',
     },
     customChains: [
       {
@@ -139,6 +151,22 @@ const config: any = {
         urls: {
           apiURL: 'https://explorer.test.taiko.xyz/api',
           browserURL: 'https://explorer.test.taiko.xyz',
+        },
+      },
+      {
+        network: 'base_testnet',
+        chainId: 84532,
+        urls: {
+          apiURL: 'https://api-sepolia.basescan.org/api',
+          browserURL: 'https://sepolia.basescan.org/',
+        },
+      },
+      {
+        network: 'rootstock_testnet',
+        chainId: 31,
+        urls: {
+          apiURL: 'https://explorer.testnet.rootstock.io/api',
+          browserURL: 'https://explorer.testnet.rootstock.io/',
         },
       },
     ],
